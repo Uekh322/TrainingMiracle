@@ -21,11 +21,26 @@ namespace MiracleTraining
     public partial class ProductPage : Page
     {
         private Client currentUser;
+        private List<OrderItem> orderItems = new List<OrderItem>();
         public ProductPage(Client user)
         {
             InitializeComponent();
 
             currentUser = user;
+
+            if (currentUser == null)
+            {
+                UserNameTextBlock.Text = "Гость";
+                StackPanelFiltrAndSearch.Visibility = Visibility.Hidden;
+                OrderPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                UserNameTextBlock.Text =
+                    currentUser.LastName + " " + currentUser.FirstName;
+
+                RoleTextBlock.Text = currentUser.UserRole.RoleName;
+            }
             UpdateServices();
         }
         private void UpdateServices()
@@ -64,6 +79,70 @@ namespace MiracleTraining
         private void FiltrComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateServices();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Manager.MainFrame.CanGoBack)
+                Manager.MainFrame.GoBack();
+        }
+
+        private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            {
+                var product = ProductListView.SelectedItem as Product;
+
+                if (product == null)
+                {
+                    SizeComboBox.ItemsSource = null;
+                    return;
+                }
+
+                SizeComboBox.ItemsSource = product.CommodityPosition
+                    .Where(p => p.QuantityInStock > 0)
+                    .OrderBy(p => p.Size)
+                    .ToList();
+            }
+        }
+
+        private void AddToOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentUser == null)
+                return;
+
+            var position = SizeComboBox.SelectedItem as CommodityPosition;
+
+            if (position == null)
+            {
+                MessageBox.Show("Выберите товар и размер");
+                return;
+            }
+
+            var item = orderItems.FirstOrDefault(p =>
+                p.CommodityPositionID == position.CommodityPositionID);
+
+            if (item == null)
+            {
+                orderItems.Add(new OrderItem
+                {
+                    CommodityPositionID = position.CommodityPositionID,
+                    CommodityPosition = position,
+                    Quantity = 1,
+                    PriceAtOrderTime = position.Product.Price
+                });
+            }
+            else
+            {
+                if (item.Quantity >= position.QuantityInStock)
+                {
+                    MessageBox.Show("Больше пар этого размера нет в наличии");
+                    return;
+                }
+
+                item.Quantity++;
+            }
+
+            OrderCountTextBlock.Text = $"В заказе: {orderItems.Sum(p => p.Quantity)}";
         }
     }
 }
