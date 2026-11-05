@@ -86,6 +86,9 @@
             Grid.Row="3"
             Orientation="Horizontal"
             Margin="10">
+            <Button Content="Открыть заказ" Name="OpenOrderButton"
+            Margin="10,0"
+            Click="OpenOrderButton_Click"/>
             <TextBlock Text="Размер:"
                VerticalAlignment="Center"
                Margin="0,0,10,0"/>

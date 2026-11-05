@@ -4,6 +4,29 @@
              xmlns:local="clr-namespace:MiracleTraining"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="#70B2AF"/>
+            <Setter Property="Padding" Value="10,4"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="#D2F6E7"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="#D2F6E7"/>
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+        </Style>
     </Application.Resources>
 </Application>

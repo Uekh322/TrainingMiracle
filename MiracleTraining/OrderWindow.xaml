@@ -1,0 +1,39 @@
+﻿<Window x:Class="MiracleTraining.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiracleTraining"
+        mc:Ignorable="d"
+        Title="OrderWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView Name="OrderListView" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Модель" Width="250"
+                            DisplayMemberBinding="{Binding CommodityPosition.Product.ProductName}"/>
+                    <GridViewColumn Header="Размер" Width="70"
+                            DisplayMemberBinding="{Binding CommodityPosition.Size}"/>
+                    <GridViewColumn Header="Пар" Width="60"
+                            DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Цена за пару" Width="110"
+                            DisplayMemberBinding="{Binding PriceAtOrderTime}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <Button Content="−" Width="35" Name="MinusButton"  Click="MinusButton_Click"/>
+            <Button Content="+" Width="35" Margin="5,0" Name="PlusButton"
+            Click="PlusButton_Click"/>
+            <Button Content="Удалить строку" Name="RemoveItemButton"
+            Margin="5,0"
+            Click="RemoveItemButton_Click"/>
+            <TextBlock Name="TotalTextBlock" Margin="10,0" FontSize="20"/>
+        </StackPanel>
+    </Grid>
+</Window>

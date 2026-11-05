@@ -144,5 +144,19 @@ namespace MiracleTraining
 
             OrderCountTextBlock.Text = $"В заказе: {orderItems.Sum(p => p.Quantity)}";
         }
+
+        private void OpenOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (orderItems.Count == 0)
+            {
+                MessageBox.Show("Добавьте хотя бы один товар");
+                return;
+            }
+
+            var window = new OrderWindow(orderItems);
+            window.Owner = Window.GetWindow(this);
+            window.ShowDialog();
+            OrderCountTextBlock.Text = $"В заказе: {orderItems.Sum(p => p.Quantity)}";
+        }
     }
 }
